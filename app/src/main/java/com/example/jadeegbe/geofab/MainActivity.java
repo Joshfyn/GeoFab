@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //  To get your AppId and AppToken you need to create new application in Estimote Cloud.
-        EstimoteSDK.initialize(getApplicationContext(), getAppId(), getAppToken());
+        //EstimoteSDK.initialize(getApplicationContext(), "1", "testing");
         // Optional, debug logging.
         EstimoteSDK.enableDebugLogging(true);
     }
