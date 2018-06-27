@@ -7,9 +7,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -27,11 +30,27 @@ public class MyApplication extends Application {
             @Override
             public void onServiceReady() {
                 beaconManager.startMonitoring(new BeaconRegion(
-                        "c75df300046c6c68a7",
-                        UUID.fromString("D0D3FA86-CA76-45EC-9BD9-6AF4C75DF300"),
-                        1132, 26791
+                        "1d53a120de1861917c8ceaae062aa214",
+                        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
+                        19229, 40678
 
                 ));
+            }
+        });
+
+        beaconManager.setMonitoringListener(new BeaconManager.BeaconMonitoringListener() {
+            @Override
+            public void onEnteredRegion(BeaconRegion beaconRegion, List<Beacon> beacons) {
+                showNotification(
+                        ":)",
+                        "You are within range");
+            }
+            @Override
+            public void onExitedRegion(BeaconRegion beaconRegion) {
+                showNotification(
+                        ":(",
+                        "You are off the radar!!");
+
             }
         });
     }
