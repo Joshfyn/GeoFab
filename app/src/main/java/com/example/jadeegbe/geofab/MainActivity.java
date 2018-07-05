@@ -1,10 +1,13 @@
 package com.example.jadeegbe.geofab;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private BeaconRegion region;
     private static final Map<String, List<String>> PLACES_BY_BEACONS;
     ListView listView;
+    public Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
         region = new BeaconRegion("36c73c9587ac250c79497aa983562a0d",
                 UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
+
+        button = (Button) findViewById(R.id.nextActivity);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMain2Activity();
+            }
+        });
+
+
 
     }
 
@@ -110,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
             return PLACES_BY_BEACONS.get(beaconKey);
         }
         return Collections.emptyList();
+    }
+
+    public void openMain2Activity(){
+        Intent intent = new Intent(this, Main2Activity.class);
+        startActivity(intent);
     }
 
 
