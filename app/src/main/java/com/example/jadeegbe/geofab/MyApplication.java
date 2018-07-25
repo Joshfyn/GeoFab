@@ -6,10 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.recognition.packets.Nearable;
 import com.estimote.coresdk.service.BeaconManager;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.UUID;
 public class MyApplication extends Application {
 
     private BeaconManager beaconManager;
+    public String mEstimoteID;
 
     @Override
     public void onCreate() {
@@ -32,7 +36,7 @@ public class MyApplication extends Application {
                 beaconManager.startMonitoring(new BeaconRegion(
                         "1d53a120de1861917c8ceaae062aa214",
                         UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"),
-                        19229, 40678
+                        51308, 21495
 
                 ));
             }
@@ -44,6 +48,7 @@ public class MyApplication extends Application {
                 showNotification(
                         ":)",
                         "You are within range");
+
             }
             @Override
             public void onExitedRegion(BeaconRegion beaconRegion) {
@@ -53,6 +58,8 @@ public class MyApplication extends Application {
 
             }
         });
+
+
     }
 
     public void showNotification(String title, String message) {

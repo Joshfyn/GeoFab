@@ -10,11 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.recognition.packets.Nearable;
 import com.estimote.coresdk.service.BeaconManager;
 
 import java.util.ArrayList;
@@ -32,13 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private BeaconRegion region;
     private static final Map<String, List<String>> PLACES_BY_BEACONS;
     ListView listView;
-    public Button button;
+    public TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.my_listview);
+        textView = (TextView) findViewById(R.id.nextActivity);
+
         EstimoteSDK.initialize(getApplicationContext(), "1", "0");
         EstimoteSDK.enableDebugLogging(true);
 
@@ -57,19 +61,18 @@ public class MainActivity extends AppCompatActivity {
 
                     listView.setAdapter(listAdapter); //this coverts the array to display in the list
                 }
+
+                for (Beacon beacon : list){
+                    String rssi = String.valueOf(beacon.getRssi());
+                    textView.setText(rssi);
+                }
             }
         });
 
-        region = new BeaconRegion("36c73c9587ac250c79497aa983562a0d",
+       region = new BeaconRegion("36c73c9587ac250c79497aa983562a0d",
                 UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
 
-        button = (Button) findViewById(R.id.nextActivity);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMain2Activity();
-            }
-        });
+
 
 
 
@@ -124,11 +127,6 @@ public class MainActivity extends AppCompatActivity {
             return PLACES_BY_BEACONS.get(beaconKey);
         }
         return Collections.emptyList();
-    }
-
-    public void openMain2Activity(){
-        Intent intent = new Intent(this, Main2Activity.class);
-        startActivity(intent);
     }
 
 
