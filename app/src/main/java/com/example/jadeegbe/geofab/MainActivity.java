@@ -1,11 +1,14 @@
 package com.example.jadeegbe.geofab;
 
 import android.app.Application;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
 import com.estimote.coresdk.recognition.packets.Nearable;
@@ -16,15 +19,32 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private BeaconManager beaconManager;
-    private String scanId;
+    private String rssiVal;
+    boolean motionVAl;
     private static final String TAG = "BeaconID";
-    public TextView textView;
+    public TextView textView, textView1;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView) findViewById(R.id.nextActivity);
+        textView1 = (TextView) findViewById(R.id.nextActivity1);
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (bluetoothAdapter == null){
+            Toast.makeText(getApplicationContext(),"Bluetooth Not Supported",Toast.LENGTH_SHORT).show();
+        }
+
+        if (!bluetoothAdapter.isEnabled()) {
+            startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE),1);
+            Toast.makeText(getApplicationContext(),"Turn ON Bluetooth to continue using APP",Toast.LENGTH_SHORT).show();
+
+        }
+
 
         beaconManager = new BeaconManager(getApplicationContext());
         beaconManager.setForegroundScanPeriod(500,0);
@@ -42,15 +62,28 @@ public class MainActivity extends AppCompatActivity {
             public void onNearablesDiscovered(List<Nearable> nearables) {
                 for (Nearable nearable : nearables){
                     if (nearable.identifier.equals("6cf71fa481a5ae42")) {
-                        scanId = String.valueOf(nearable.rssi);
-                        textView.setText(scanId);
-                        Log.i(TAG, String.valueOf(scanId));
+                        rssiVal = String.valueOf(nearable.rssi);
+                        textView.setText(rssiVal);
+                        Log.i(TAG, String.valueOf(rssiVal));
+
+                    }
+
+                    if (nearable.identifier.equals("2efe3b930fd5f6d2")) {
+                        motionVAl = nearable.isMoving;
+                        if (motionVAl == true){
+                            textView1.setText("It is moving");
+                        }
+                        else {
+                            textView1.setText("It is still");
+                        }
+                        Log.i(TAG, String.valueOf(motionVAl));
+
                     }
                 }
             }
         });
 
-        EstimoteSDK.initialize(this, "Nearables", "09876");
+        EstimoteSDK.initialize(this, "", "");
 
     }
 
