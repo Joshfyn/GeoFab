@@ -14,10 +14,18 @@ public class MyApplication extends Application implements Runnable{
     private BeaconManager beaconManager;
     boolean motionVAl;
     private static final String TAG = "BeaconID";
+    long Timestamp;
+    String estimoteIdentifier;
 
     private Context mcontext;
     public String RssiVAL;
     public String EstMoving;
+    public String xAcceleraTion, yAcceleraTion, zAcceleraTion, xyzAcceleraTion;
+    public String[] itemsNames;
+
+    FabDatabaseHelper fabDatabaseHelper;
+
+
 
 
 
@@ -25,6 +33,8 @@ public class MyApplication extends Application implements Runnable{
     @Override
     public void onCreate() {
         super.onCreate();
+
+        fabDatabaseHelper = new FabDatabaseHelper(this, null);
 
 
         beaconManager = new BeaconManager(getApplicationContext());
@@ -44,9 +54,28 @@ public class MyApplication extends Application implements Runnable{
             public void onNearablesDiscovered(List<Nearable> nearables) {
                 for (Nearable nearable : nearables){
                     if (nearable.identifier.equals("6cf71fa481a5ae42")) {
+                        Timestamp = System.currentTimeMillis();
+                        estimoteIdentifier = nearable.identifier;
                         RssiVAL = String.valueOf(nearable.rssi);
                         MainActivity.RSSI_value_from_MyApplication = RssiVAL;
                         Log.i(TAG, String.valueOf(RssiVAL));
+
+                    }
+                    EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL);
+                    fabDatabaseHelper.addData(estimotePacket1);
+                    List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
+                    if (estimotePackets != null) {
+                        itemsNames = new String[estimotePackets.size()];
+
+                        for (int i = 0; i < estimotePackets.size(); i++) {
+                            itemsNames[i] = estimotePackets.get(i).toString();
+                        }
+                        MainActivity.allPackets = itemsNames;
+
+                        /*// display like string instances
+                        ListView list = (ListView) findViewById(R.id.list);
+                        list.setAdapter(new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, android.R.id.text1, itemsNames));*/
 
                     }
 
@@ -61,7 +90,27 @@ public class MyApplication extends Application implements Runnable{
                         MainActivity.MOVING_value_from_MyApplication = EstMoving;
                         Log.i(TAG, String.valueOf(motionVAl));
 
+                        //TODO: finish up the acceleration for Detecting vibration
+                        double xAcceln = nearable.xAcceleration;
+                        double yAcceln = nearable.yAcceleration;
+                        double zAcceln = nearable.zAcceleration;
+                        double xyzAceeln = Math.sqrt((xAcceln*xAcceln)+(yAcceln*yAcceln)+(zAcceln*zAcceln));
+
+                        xAcceleraTion = String.valueOf(xAcceln);
+                        yAcceleraTion = String.valueOf(yAcceln);
+                        zAcceleraTion = String.valueOf(zAcceln);
+                        xyzAcceleraTion = String.valueOf(xyzAceeln);
+
+                        MainActivity.XACCELERATION = xAcceleraTion;
+                        MainActivity.YACCELERATION = yAcceleraTion;
+                        MainActivity.ZACCELERATION = zAcceleraTion;
+                        MainActivity.XYZACCELERATION = xyzAcceleraTion;
+
+
                     }
+
+
+
                 }
             }
         });
