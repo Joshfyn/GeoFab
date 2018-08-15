@@ -7,109 +7,12 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <TextView
-        android:id="@+id/xyzAcclero2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="191dp"
-        android:layout_marginLeft="153dp"
-        android:layout_marginRight="191dp"
-        android:layout_marginStart="153dp"
-        android:text="xyzAcclero"
-        app:layout_constraintBottom_toTopOf="@+id/timestamp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/nextActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:text="RSSI"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/nextActivity1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="255dp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="45dp"
-        android:text="RSSIII"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/xAcclero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:layout_marginTop="21dp"
-        android:text="xAcclero"
-        app:layout_constraintBottom_toTopOf="@+id/yAcclero"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextActivity" />
-
-    <TextView
-        android:id="@+id/yAcclero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:text="yAcclero"
-        app:layout_constraintBottom_toTopOf="@+id/zAcclero"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/zAcclero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:text="zAcclero"
-        app:layout_constraintBottom_toTopOf="@+id/xyzAcclero"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/xyzAcclero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="191dp"
-        android:layout_marginLeft="153dp"
-        android:layout_marginRight="191dp"
-        android:layout_marginStart="153dp"
-        android:text="xyzAcclero"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="185dp" />
-
-    <TextView
-        android:id="@+id/timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="224dp"
-        android:layout_marginLeft="156dp"
-        android:layout_marginRight="224dp"
-        android:layout_marginStart="156dp"
-        android:text="00h:00min:00s:000"
-        app:layout_constraintBottom_toTopOf="@+id/my_listview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
-        android:id="@+id/my_listview"
+        android:id="@+id/my_list"
         android:layout_width="395dp"
         android:layout_height="356dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="115dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -119,5 +22,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"></ListView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:layout_marginEnd="171dp"
+        android:layout_marginLeft="152dp"
+        android:layout_marginRight="171dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="31dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/my_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

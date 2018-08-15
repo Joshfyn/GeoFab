@@ -68,6 +68,8 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
 
 
         Log.d(DatabaseTAG, "addData: Adding " + estimotePackets.get_timestamp() + " to " + DB_TABLE_NAME);
+        Log.d(DatabaseTAG, "addData: Adding " + estimotePackets.getEstimoteIdentifier() + " to " + DB_TABLE_NAME);
+        Log.d(DatabaseTAG, "addData: Adding " + estimotePackets.get_estimoteRSSI() + " to " + DB_TABLE_NAME);
 
     }
 

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EstimoteReadings">
+
+    <ListView
+        android:id="@+id/my_listview"
+        android:layout_width="395dp"
+        android:layout_height="274dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="17dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/stopButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/xyzAcclero"></ListView>
+
+    <TextView
+        android:id="@+id/rssiValue"
+        android:layout_width="85dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="148dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="RSSI"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:fontFamily="monospace"
+        app:layout_constraintEnd_toStartOf="@+id/booleanMovement"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/booleanMovement"
+        android:layout_width="109dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginRight="53dp"
+        android:layout_marginTop="16dp"
+        android:text="Moving"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:fontFamily="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/xAcclero"
+        android:layout_width="88dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="38dp"
+        android:text="xAcclero"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rssiValue" />
+
+    <TextView
+        android:id="@+id/yAcclero"
+        android:layout_width="96dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginRight="46dp"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="36dp"
+        android:text="yAcclero"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/zAcclero"
+        app:layout_constraintStart_toEndOf="@+id/xAcclero"
+        app:layout_constraintTop_toBottomOf="@+id/booleanMovement" />
+
+    <TextView
+        android:id="@+id/zAcclero"
+        android:layout_width="81dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="35dp"
+        android:text="zAcclero"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/booleanMovement" />
+
+    <TextView
+        android:id="@+id/xyzAcclero"
+        android:layout_width="98dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="32dp"
+        android:text="xyzAcclero"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yAcclero" />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="130dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:text="00h:00min:00s:000"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/my_listview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/xyzAcclero"
+        app:layout_constraintTop_toBottomOf="@+id/zAcclero" />
+
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="104dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="23dp"
+        android:text="Stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -34,7 +34,7 @@ public class MyApplication extends Application implements Runnable{
     public void onCreate() {
         super.onCreate();
 
-        fabDatabaseHelper = new FabDatabaseHelper(this, null);
+        fabDatabaseHelper = new FabDatabaseHelper(this, "estimoteNearable.db");
 
 
         beaconManager = new BeaconManager(getApplicationContext());
@@ -57,7 +57,7 @@ public class MyApplication extends Application implements Runnable{
                         Timestamp = System.currentTimeMillis();
                         estimoteIdentifier = nearable.identifier;
                         RssiVAL = String.valueOf(nearable.rssi);
-                        MainActivity.RSSI_value_from_MyApplication = RssiVAL;
+                        EstimoteReadings.RSSI_value_from_MyApplication = RssiVAL;
                         Log.i(TAG, String.valueOf(RssiVAL));
 
                     }
@@ -70,7 +70,7 @@ public class MyApplication extends Application implements Runnable{
                         for (int i = 0; i < estimotePackets.size(); i++) {
                             itemsNames[i] = estimotePackets.get(i).toString();
                         }
-                        MainActivity.allPackets = itemsNames;
+
 
                         /*// display like string instances
                         ListView list = (ListView) findViewById(R.id.list);
@@ -87,7 +87,7 @@ public class MyApplication extends Application implements Runnable{
                         else {
                             EstMoving = "It is still";
                         }
-                        MainActivity.MOVING_value_from_MyApplication = EstMoving;
+                        EstimoteReadings.MOVING_value_from_MyApplication = EstMoving;
                         Log.i(TAG, String.valueOf(motionVAl));
 
                         //TODO: finish up the acceleration for Detecting vibration
@@ -101,10 +101,10 @@ public class MyApplication extends Application implements Runnable{
                         zAcceleraTion = String.valueOf(zAcceln);
                         xyzAcceleraTion = String.valueOf(xyzAceeln);
 
-                        MainActivity.XACCELERATION = xAcceleraTion;
-                        MainActivity.YACCELERATION = yAcceleraTion;
-                        MainActivity.ZACCELERATION = zAcceleraTion;
-                        MainActivity.XYZACCELERATION = xyzAcceleraTion;
+                        EstimoteReadings.XACCELERATION = xAcceleraTion;
+                        EstimoteReadings.YACCELERATION = yAcceleraTion;
+                        EstimoteReadings.ZACCELERATION = zAcceleraTion;
+                        EstimoteReadings.XYZACCELERATION = xyzAcceleraTion;
 
 
                     }
@@ -125,8 +125,8 @@ public class MyApplication extends Application implements Runnable{
 
     @Override
     public void run() {
-        /*((MainActivity)mcontext).updateRSSI(RssiVAL);
-        ((MainActivity)mcontext).updateMoving(EstMoving);*/
+        /*((EstimoteReadings)mcontext).updateRSSI(RssiVAL);
+        ((EstimoteReadings)mcontext).updateMoving(EstMoving);*/
 
         try {
             Thread.sleep(15);
