@@ -41,6 +41,7 @@ public class EstimoteReadings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+
         mContect = this;
 
 
@@ -64,6 +65,8 @@ public class EstimoteReadings extends AppCompatActivity {
         uiRefresher.post(yMove);
         uiRefresher.post(zMove);
         uiRefresher.post(xyzMove);
+
+
 
 
         //TODO: Include the timestamp in the project

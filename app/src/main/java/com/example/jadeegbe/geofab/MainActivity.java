@@ -3,9 +3,11 @@ package com.example.jadeegbe.geofab;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,15 +19,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
+import com.estimote.coresdk.recognition.packets.Nearable;
 import com.estimote.coresdk.service.BeaconManager;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    //declare all known identifier
+    //String A = "e3b930fd5f6d2";
+
     Button button;
-    private BeaconManager mBeaconManager;
 
 
     @Override
@@ -47,24 +53,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        mBeaconManager = new BeaconManager(getApplicationContext());
-        mBeaconManager.setForegroundScanPeriod(500,0);
-        mBeaconManager.setBackgroundScanPeriod(500,0);
-        EstimoteSDK.initialize(this, "fablab-monitor-gxs", "83a80186bf2d8fd3204757256f889d46");
-
-        mBeaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                mBeaconManager.startNearableDiscovery();
-            }
-        });
-
+        /*SharedPreferences sharedPred =  getSharedPreferences("identifier", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPred.edit();
+        editor.putInt("Running", 1);
+        editor.apply();
+*/
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openReadings();
+                saveIdentifier();
+
+
             }
         });
 
@@ -76,7 +78,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void openReadings() {
         Intent intent = new Intent(this, EstimoteReadings.class);
+        //intent.putExtra("identifier", A);
         startActivity(intent);
+
+    }
+
+    public void saveIdentifier (){
+        SharedPreferences preferences =  getSharedPreferences("identifier", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("key1", "2efe3b930fd5f6d2");
+        editor.apply();
     }
 
 

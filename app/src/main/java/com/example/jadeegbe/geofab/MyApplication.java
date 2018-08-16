@@ -1,7 +1,12 @@
 package com.example.jadeegbe.geofab;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
@@ -17,13 +22,18 @@ public class MyApplication extends Application implements Runnable{
     long Timestamp;
     String estimoteIdentifier;
 
-    private Context mcontext;
+    private Context context;
     public String RssiVAL;
     public String EstMoving;
     public String xAcceleraTion, yAcceleraTion, zAcceleraTion, xyzAcceleraTion;
     public String[] itemsNames;
 
     FabDatabaseHelper fabDatabaseHelper;
+
+    String A;
+
+
+
 
 
 
@@ -33,6 +43,18 @@ public class MyApplication extends Application implements Runnable{
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //TODO: Come back to it
+       /*Bundle identifier = getIntent.getExtras();
+        Log.i(TAG, String.valueOf(intent));*/
+
+       SharedPreferences sharedPref = getSharedPreferences("identifier", Context.MODE_PRIVATE);
+       A = sharedPref.getString("key1", "");
+       Log.i(TAG, String.valueOf(A));
+
+
+
+
 
         fabDatabaseHelper = new FabDatabaseHelper(this, "estimoteNearable.db");
 
@@ -59,11 +81,12 @@ public class MyApplication extends Application implements Runnable{
                         RssiVAL = String.valueOf(nearable.rssi);
                         EstimoteReadings.RSSI_value_from_MyApplication = RssiVAL;
                         Log.i(TAG, String.valueOf(RssiVAL));
+                        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL);
+                        fabDatabaseHelper.addData(estimotePacket1);
 
                     }
-                    EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL);
-                    fabDatabaseHelper.addData(estimotePacket1);
-                    List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
+
+                    /*List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
                     if (estimotePackets != null) {
                         itemsNames = new String[estimotePackets.size()];
 
@@ -72,12 +95,7 @@ public class MyApplication extends Application implements Runnable{
                         }
 
 
-                        /*// display like string instances
-                        ListView list = (ListView) findViewById(R.id.list);
-                        list.setAdapter(new ArrayAdapter<String>(this,
-                                android.R.layout.simple_list_item_1, android.R.id.text1, itemsNames));*/
-
-                    }
+                    }*/
 
                     if (nearable.identifier.equals("2efe3b930fd5f6d2")) {
                         motionVAl = nearable.isMoving;
