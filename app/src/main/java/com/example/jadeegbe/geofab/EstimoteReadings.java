@@ -6,12 +6,20 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class EstimoteReadings extends AppCompatActivity {
+
+
+    private FabDatabaseHelper fabDatabaseHelper;
+
     private static final String TAG = "BeaconID";
     public static String RSSI_value_from_MyApplication = "";
+    public static String Identifier_from_MyApplication = "";
     public static String MOVING_value_from_MyApplication = "";
     public static String XACCELERATION = "";
     public static String YACCELERATION = "";
@@ -19,7 +27,7 @@ public class EstimoteReadings extends AppCompatActivity {
     public static String XYZACCELERATION = "";
 
 
-    //private long Timestamp;
+    private long Timestamp;
 
     public TextView textView, textView1, textView2, textView3, textView4, textView5, textView6;
     ListView listView;
@@ -40,6 +48,9 @@ public class EstimoteReadings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+
+        // helperClass created here
+        fabDatabaseHelper = new FabDatabaseHelper(this, "estimoteNearable.db");
 
 
         mContect = this;
@@ -69,15 +80,36 @@ public class EstimoteReadings extends AppCompatActivity {
 
 
 
+
+
         //TODO: Include the timestamp in the project
-        /*Timestamp = System.currentTimeMillis();
+        Timestamp = System.currentTimeMillis();
 
         int hour = (int) ((Timestamp / (Mills_To_Hours))%24)+3;
         int seconds = (int) ((Timestamp / 1000) % 60);
         int minutes = (int) (((Timestamp / Mills_To_Minutes)) % 60);
         textView6.setText(String.format(
                 "%02dh:%02dmin:%02ds", hour, minutes, seconds
-        ));*/
+        ));
+
+        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), Identifier_from_MyApplication, RSSI_value_from_MyApplication);
+        fabDatabaseHelper.addData(estimotePacket1);
+
+
+        List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
+                    if (estimotePackets != null) {
+                       String [] itemsNames = new String[estimotePackets.size()];
+
+                        for (int i = 0; i < estimotePackets.size(); i++) {
+                            itemsNames[i] = estimotePackets.get(i).toString();
+                        }
+
+                        // display like string instances
+                        ListView list = (ListView) findViewById(R.id.my_listview);
+                        list.setAdapter(new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, android.R.id.text1, itemsNames));
+
+                    }
     }
 
     Runnable updateRSSI =new Runnable() {

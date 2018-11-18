@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FabDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final  String DatabaseTAG = "DatabaseHelper";
+    private static final String DatabaseTAG = "DatabaseHelper";
     private static final String DATABASE_NAME = "estimoteNearable.db";
     private static final String DB_TABLE_NAME = "EsimoteNearablesdb";
 
@@ -23,7 +23,6 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
     private static final String Col2 = "timestamp";
     private static final String Col3 = "estimoteIdentifier";
     private static final String Col4 = "estimoteRSSI";
-
 
 
     public FabDatabaseHelper(Context context, String name) {
@@ -56,15 +55,24 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
 
     //add a new row to the database
     public void addData(EstimotePackets estimotePackets) {
+
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Col2, estimotePackets.get_timestamp());
-        contentValues.put(Col3, estimotePackets.getEstimoteIdentifier());
-        contentValues.put(Col4, estimotePackets.get_estimoteRSSI());
+
+        if (estimotePackets.get_estimoteRSSI() != null || estimotePackets.get_estimoteRSSI().isEmpty() && estimotePackets.getEstimoteIdentifier() != null || estimotePackets.getEstimoteIdentifier().isEmpty()){
+
+            contentValues.put(Col2, estimotePackets.get_timestamp());
+            contentValues.put(Col3, estimotePackets.getEstimoteIdentifier());
+            contentValues.put(Col4, estimotePackets.get_estimoteRSSI());
+        }
+
+
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.insert(DB_TABLE_NAME, null, contentValues);
+        if (estimotePackets.get_estimoteRSSI() == null || estimotePackets.get_estimoteRSSI().isEmpty() && estimotePackets.getEstimoteIdentifier() == null || estimotePackets.getEstimoteIdentifier().isEmpty()){
+            return;
+        }
         sqLiteDatabase.close();
-
 
 
         Log.d(DatabaseTAG, "addData: Adding " + estimotePackets.get_timestamp() + " to " + DB_TABLE_NAME);
@@ -97,13 +105,13 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
                 estimotePacket.setEstimoteIdentifier(cursor.getString(2));
                 estimotePacket.set_estimoteRSSI(cursor.getString(3));
                 estimotePackets.add(estimotePacket);
+
+                Log.d(DatabaseTAG, estimotePacket.toString());
             } while (cursor.moveToNext());
         }
 
         return estimotePackets;
     }
-
-
 
 
 }

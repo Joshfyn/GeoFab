@@ -46,4 +46,21 @@ public class EstimotePackets {
     public void set_estimoteRSSI(String _estimoteRSSI) {
         this._estimoteRSSI = _estimoteRSSI;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder b =new StringBuilder();
+        b.append(" Id: ");
+        b.append(get_id());
+        b.append(" Identifier: ");
+        b.append(getEstimoteIdentifier());
+        b.append(" RSSI: ");
+        b.append(get_estimoteRSSI());
+        return b.toString();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

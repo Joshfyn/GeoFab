@@ -1,12 +1,8 @@
 package com.example.jadeegbe.geofab;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
@@ -15,44 +11,28 @@ import com.estimote.coresdk.service.BeaconManager;
 
 import java.util.List;
 
-public class MyApplication extends Application implements Runnable{
-    private BeaconManager beaconManager;
-    boolean motionVAl;
-    private static final String TAG = "BeaconID";
-    long Timestamp;
-    String estimoteIdentifier;
-
-    private Context context;
+public class MyApplication extends Application implements Runnable {
     public String RssiVAL;
     public String EstMoving;
     public String xAcceleraTion, yAcceleraTion, zAcceleraTion, xyzAcceleraTion;
     public String[] itemsNames;
-
+    boolean motionVAl;
+    long Timestamp;
+    String estimoteIdentifier;
+    int[] rssiEstimate;
     FabDatabaseHelper fabDatabaseHelper;
-
     String A;
-
-
-
-
-
-
-
-
+    private BeaconManager beaconManager;
+    private Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //TODO: Come back to it
-       /*Bundle identifier = getIntent.getExtras();
-        Log.i(TAG, String.valueOf(intent));*/
-
-       SharedPreferences sharedPref = getSharedPreferences("identifier", Context.MODE_PRIVATE);
-       A = sharedPref.getString("key1", "");
-       Log.i(TAG, String.valueOf(A));
 
 
+        SharedPreferences sharedPref = getSharedPreferences("identifier", Context.MODE_PRIVATE);
+        A = sharedPref.getString("key1", "");
 
 
 
@@ -60,8 +40,8 @@ public class MyApplication extends Application implements Runnable{
 
 
         beaconManager = new BeaconManager(getApplicationContext());
-        beaconManager.setForegroundScanPeriod(500,0);
-        beaconManager.setBackgroundScanPeriod(500,0);
+        beaconManager.setForegroundScanPeriod(10000, 5000);
+        beaconManager.setBackgroundScanPeriod(10000, 5000);
         EstimoteSDK.initialize(this, "fablab-monitor-gxs", "83a80186bf2d8fd3204757256f889d46");
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -74,45 +54,37 @@ public class MyApplication extends Application implements Runnable{
         beaconManager.setNearableListener(new BeaconManager.NearableListener() {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
-                for (Nearable nearable : nearables){
+                for (Nearable nearable : nearables) {
                     if (nearable.identifier.equals("6cf71fa481a5ae42")) {
                         Timestamp = System.currentTimeMillis();
                         estimoteIdentifier = nearable.identifier;
+                        EstimoteReadings.Identifier_from_MyApplication = estimoteIdentifier;
                         RssiVAL = String.valueOf(nearable.rssi);
+                        rssiEstimate = new int[]{nearable.rssi};
                         EstimoteReadings.RSSI_value_from_MyApplication = RssiVAL;
-                        Log.i(TAG, String.valueOf(RssiVAL));
-                        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL);
-                        fabDatabaseHelper.addData(estimotePacket1);
+                        Log.i("rssivalue", String.valueOf(RssiVAL));
+
 
                     }
 
-                    /*List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
-                    if (estimotePackets != null) {
-                        itemsNames = new String[estimotePackets.size()];
+                    //Log.i("The distance is", String.valueOf(getDistance(rssiEstimate)));
 
-                        for (int i = 0; i < estimotePackets.size(); i++) {
-                            itemsNames[i] = estimotePackets.get(i).toString();
-                        }
-
-
-                    }*/
 
                     if (nearable.identifier.equals("2efe3b930fd5f6d2")) {
                         motionVAl = nearable.isMoving;
-                        if (motionVAl == true){
+                        if (motionVAl == true) {
                             EstMoving = "It is moving";
-                        }
-                        else {
+                        } else {
                             EstMoving = "It is still";
                         }
                         EstimoteReadings.MOVING_value_from_MyApplication = EstMoving;
-                        Log.i(TAG, String.valueOf(motionVAl));
+                        Log.i("motion", String.valueOf(motionVAl));
 
                         //TODO: finish up the acceleration for Detecting vibration
                         double xAcceln = nearable.xAcceleration;
                         double yAcceln = nearable.yAcceleration;
                         double zAcceln = nearable.zAcceleration;
-                        double xyzAceeln = Math.sqrt((xAcceln*xAcceln)+(yAcceln*yAcceln)+(zAcceln*zAcceln));
+                        double xyzAceeln = Math.sqrt((xAcceln * xAcceln) + (yAcceln * yAcceln) + (zAcceln * zAcceln));
 
                         xAcceleraTion = String.valueOf(xAcceln);
                         yAcceleraTion = String.valueOf(yAcceln);
@@ -128,15 +100,9 @@ public class MyApplication extends Application implements Runnable{
                     }
 
 
-
                 }
             }
         });
-
-
-
-
-
 
 
     }
@@ -151,6 +117,37 @@ public class MyApplication extends Application implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public double getDistance(int[] array) {
+        int total = 0;
+        int txPower = -65; //hard coded power value. Usually ranges between -59 to -65
+
+        if (array == null) {
+            return -1;
+        } else {
+
+            for (int i = 0; i < array.length; i++) {
+                total = total + array[i];
+
+            }
+
+            int averageRSSI = total / array.length;
+
+            if (averageRSSI == 0) {
+                return -1;
+            }
+
+            double ratio = averageRSSI * 1 / txPower;
+            if (ratio < 1.0) {
+                return Math.pow(ratio, 10);
+            } else {
+                double distance = (0.89976) * Math.pow(ratio, 7.7095) + 0.111;
+                return distance;
+            }
+        }
+
 
     }
 
