@@ -1,8 +1,6 @@
 package com.example.jadeegbe.geofab;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.estimote.coresdk.common.config.EstimoteSDK;
@@ -12,27 +10,32 @@ import com.estimote.coresdk.service.BeaconManager;
 import java.util.List;
 
 public class MyApplication extends Application implements Runnable {
+
+    long Timestamp;
+
+    //Nearables for calculating proximity
     public String RssiVAL;
+    String NearIdentifierDist;
+    int[] rssiEstimate;
+
+
+    public String[] itemsNames;
+
+    //Nearables for calculating vibration intensity
+    String NearIdentifierAccel;
     public String EstMoving;
     public String xAcceleraTion, yAcceleraTion, zAcceleraTion, xyzAcceleraTion;
-    public String[] itemsNames;
     boolean motionVAl;
-    long Timestamp;
-    String estimoteIdentifier;
-    int[] rssiEstimate;
+
+
+
     FabDatabaseHelper fabDatabaseHelper;
-    String A;
     private BeaconManager beaconManager;
-    private Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-
-
-        SharedPreferences sharedPref = getSharedPreferences("identifier", Context.MODE_PRIVATE);
-        A = sharedPref.getString("key1", "");
 
 
 
@@ -55,10 +58,11 @@ public class MyApplication extends Application implements Runnable {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
                 for (Nearable nearable : nearables) {
+                    Timestamp = System.currentTimeMillis();
+
                     if (nearable.identifier.equals("6cf71fa481a5ae42")) {
-                        Timestamp = System.currentTimeMillis();
-                        estimoteIdentifier = nearable.identifier;
-                        EstimoteReadings.Identifier_from_MyApplication = estimoteIdentifier;
+                        NearIdentifierDist = nearable.identifier;
+                        EstimoteReadings.Identifier_from_MyApplication = NearIdentifierDist;
                         RssiVAL = String.valueOf(nearable.rssi);
                         rssiEstimate = new int[]{nearable.rssi};
                         EstimoteReadings.RSSI_value_from_MyApplication = RssiVAL;
@@ -79,6 +83,8 @@ public class MyApplication extends Application implements Runnable {
                         }
                         EstimoteReadings.MOVING_value_from_MyApplication = EstMoving;
                         Log.i("motion", String.valueOf(motionVAl));
+
+                        NearIdentifierAccel = nearable.identifier;
 
                         //TODO: finish up the acceleration for Detecting vibration
                         double xAcceln = nearable.xAcceleration;
@@ -109,8 +115,6 @@ public class MyApplication extends Application implements Runnable {
 
     @Override
     public void run() {
-        /*((EstimoteReadings)mcontext).updateRSSI(RssiVAL);
-        ((EstimoteReadings)mcontext).updateMoving(EstMoving);*/
 
         try {
             Thread.sleep(15);

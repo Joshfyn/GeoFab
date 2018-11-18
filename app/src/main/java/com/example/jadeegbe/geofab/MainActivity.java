@@ -28,8 +28,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    //declare all known identifier
-    //String A = "e3b930fd5f6d2";
+
 
     Button button;
 
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openReadings();
-                saveIdentifier();
+
 
 
             }
@@ -78,17 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openReadings() {
         Intent intent = new Intent(this, EstimoteReadings.class);
-        //intent.putExtra("identifier", A);
         startActivity(intent);
 
     }
 
-    public void saveIdentifier (){
-        SharedPreferences preferences =  getSharedPreferences("identifier", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("key1", "2efe3b930fd5f6d2");
-        editor.apply();
-    }
+
 
 
 
