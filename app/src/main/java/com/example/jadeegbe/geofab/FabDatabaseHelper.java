@@ -21,8 +21,13 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
     //Declare columns names
     private static final String Col1 = "ID";
     private static final String Col2 = "timestamp";
-    private static final String Col3 = "estimoteIdentifier";
+    private static final String Col3 = "NearIdentifierDist";
     private static final String Col4 = "estimoteRSSI";
+    private static final String Col5 = "NearIdentifierAccel";
+    private static final String Col6= "xAcceleraTion";
+    private static final String Col7 = "yAcceleraTion";
+    private static final String Col8 = "zAcceleraTion";
+    private static final String Col9= "xyzAcceleraTion";
 
 
     public FabDatabaseHelper(Context context, String name) {
@@ -36,7 +41,12 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
                 Col1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Col2 + " INTEGER, " +
                 Col3 + " TEXT, " +
-                Col4 + " INTEGER " +
+                Col4 + " INTEGER, " +
+                Col5 + " TEXT, " +
+                Col6 + " INTEGER, " +
+                Col7 + " INTEGER, " +
+                Col8 + " INTEGER, " +
+                Col9 + " INTEGER " +
                 ");";
 
         sqLiteDatabase.execSQL(createTable);
@@ -63,6 +73,11 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(Col2, estimotePackets.get_timestamp());
             contentValues.put(Col3, estimotePackets.getEstimoteIdentifier());
             contentValues.put(Col4, estimotePackets.get_estimoteRSSI());
+            contentValues.put(Col5, estimotePackets.get_NearIdentifierAccel());
+            contentValues.put(Col6, estimotePackets.get_xAcceleraTion());
+            contentValues.put(Col7, estimotePackets.get_yAcceleraTion());
+            contentValues.put(Col8, estimotePackets.get_zAcceleraTion());
+            contentValues.put(Col9, estimotePackets.get_xyzAcceleraTion());
         }
 
 

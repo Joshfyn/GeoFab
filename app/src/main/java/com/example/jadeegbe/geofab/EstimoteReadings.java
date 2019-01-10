@@ -21,6 +21,7 @@ public class EstimoteReadings extends AppCompatActivity {
     public static String RSSI_value_from_MyApplication = "";
     public static String Identifier_from_MyApplication = "";
     public static String MOVING_value_from_MyApplication = "";
+    public static String Identifier_from_MyApplicationAccel = "";
     public static String XACCELERATION = "";
     public static String YACCELERATION = "";
     public static String ZACCELERATION = "";
@@ -92,7 +93,7 @@ public class EstimoteReadings extends AppCompatActivity {
                 "%02dh:%02dmin:%02ds", hour, minutes, seconds
         ));
 
-        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), Identifier_from_MyApplication, RSSI_value_from_MyApplication);
+        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), Identifier_from_MyApplication, RSSI_value_from_MyApplication, Identifier_from_MyApplicationAccel, XACCELERATION, YACCELERATION, ZACCELERATION, XYZACCELERATION);
         fabDatabaseHelper.addData(estimotePacket1);
 
 
