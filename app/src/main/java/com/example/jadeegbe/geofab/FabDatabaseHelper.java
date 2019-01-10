@@ -68,7 +68,7 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
 
-        if (estimotePackets.get_estimoteRSSI() != null || estimotePackets.get_estimoteRSSI().isEmpty() && estimotePackets.getEstimoteIdentifier() != null || estimotePackets.getEstimoteIdentifier().isEmpty()){
+        if ((estimotePackets.get_estimoteRSSI() != null && !estimotePackets.get_estimoteRSSI().isEmpty()) && (estimotePackets.getEstimoteIdentifier() != null && !estimotePackets.getEstimoteIdentifier().isEmpty())){
 
             contentValues.put(Col2, estimotePackets.get_timestamp());
             contentValues.put(Col3, estimotePackets.getEstimoteIdentifier());

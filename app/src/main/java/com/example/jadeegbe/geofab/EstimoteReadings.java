@@ -94,6 +94,7 @@ public class EstimoteReadings extends AppCompatActivity {
         ));
 
         EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), Identifier_from_MyApplication, RSSI_value_from_MyApplication, Identifier_from_MyApplicationAccel, XACCELERATION, YACCELERATION, ZACCELERATION, XYZACCELERATION);
+        Log.d("add data to db", estimotePacket1.get_estimoteRSSI() + "");
         fabDatabaseHelper.addData(estimotePacket1);
 
 

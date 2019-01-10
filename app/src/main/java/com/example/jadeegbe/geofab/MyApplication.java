@@ -42,7 +42,7 @@ public class MyApplication extends Application implements Runnable {
         beaconManager = new BeaconManager(getApplicationContext());
         beaconManager.setForegroundScanPeriod(10000, 5000);
         beaconManager.setBackgroundScanPeriod(10000, 5000);
-        EstimoteSDK.initialize(this, "fablab-monitor-gxs", "83a80186bf2d8fd3204757256f889d46");
+        EstimoteSDK.initialize(this, "adeegbejoshua-gmail-com-s--5w4", "31d16a9a2f44d55889c772a592d573cd");
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
@@ -55,7 +55,7 @@ public class MyApplication extends Application implements Runnable {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
                 for (Nearable nearable : nearables) {
-                    if (nearable.identifier.equals("6cf71fa481a5ae42")) {
+                    if (nearable.identifier.equals("e286d152a894bc2e")) {
                         Timestamp = System.currentTimeMillis();
                         estimoteIdentifier = nearable.identifier;
                         EstimoteReadings.Identifier_from_MyApplication = estimoteIdentifier;
@@ -70,7 +70,7 @@ public class MyApplication extends Application implements Runnable {
                     //Log.i("The distance is", String.valueOf(getDistance(rssiEstimate)));
 
 
-                    if (nearable.identifier.equals("2efe3b930fd5f6d2")) {
+                    if (nearable.identifier.equals("55a6742318d3c585")) {
                         motionVAl = nearable.isMoving;
                         if (motionVAl == true) {
                             EstMoving = "It is moving";
