@@ -19,6 +19,7 @@ public class MyApplication extends Application implements Runnable {
     boolean motionVAl;
     long Timestamp;
     String estimoteIdentifier;
+    String estimoteIdentifierAccel;
     int[] rssiEstimate;
     FabDatabaseHelper fabDatabaseHelper;
     String A;
@@ -55,7 +56,8 @@ public class MyApplication extends Application implements Runnable {
             @Override
             public void onNearablesDiscovered(List<Nearable> nearables) {
                 for (Nearable nearable : nearables) {
-                    if (nearable.identifier.equals("e286d152a894bc2e")) {
+                    Log.d("nearable", nearable.identifier + "");
+                    if (nearable.identifier.equals("55a6742318d3c585")) {
                         Timestamp = System.currentTimeMillis();
                         estimoteIdentifier = nearable.identifier;
                         EstimoteReadings.Identifier_from_MyApplication = estimoteIdentifier;
@@ -91,13 +93,25 @@ public class MyApplication extends Application implements Runnable {
                         zAcceleraTion = String.valueOf(zAcceln);
                         xyzAcceleraTion = String.valueOf(xyzAceeln);
 
+                        estimoteIdentifierAccel = nearable.identifier;
+                        EstimoteReadings.Identifier_from_MyApplicationAccel = estimoteIdentifierAccel;
                         EstimoteReadings.XACCELERATION = xAcceleraTion;
                         EstimoteReadings.YACCELERATION = yAcceleraTion;
                         EstimoteReadings.ZACCELERATION = zAcceleraTion;
                         EstimoteReadings.XYZACCELERATION = xyzAcceleraTion;
 
+                        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL,
+                                estimoteIdentifierAccel, xAcceleraTion, yAcceleraTion, zAcceleraTion, xyzAcceleraTion);
+                        Log.d("add data to db", estimotePacket1.get_estimoteRSSI() + "");
+                        fabDatabaseHelper.addData(estimotePacket1);
 
                     }
+
+//                    EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), estimoteIdentifier, RssiVAL,
+//                            Identifier_from_MyApplicationAccel, XACCELERATION, YACCELERATION, ZACCELERATION, XYZACCELERATION);
+//                    Log.d("add data to db", estimotePacket1.get_estimoteRSSI() + "");
+//                    fabDatabaseHelper.addData(estimotePacket1);
+
 
 
                 }

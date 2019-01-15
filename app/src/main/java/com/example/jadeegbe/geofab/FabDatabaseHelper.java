@@ -84,7 +84,8 @@ public class FabDatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.insert(DB_TABLE_NAME, null, contentValues);
-        if (estimotePackets.get_estimoteRSSI() == null || estimotePackets.get_estimoteRSSI().isEmpty() && estimotePackets.getEstimoteIdentifier() == null || estimotePackets.getEstimoteIdentifier().isEmpty()){
+        if (estimotePackets.get_estimoteRSSI() == null || estimotePackets.get_estimoteRSSI().isEmpty() && estimotePackets.getEstimoteIdentifier() == null ||
+                estimotePackets.getEstimoteIdentifier().isEmpty()){
             return;
         }
         sqLiteDatabase.close();

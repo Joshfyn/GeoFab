@@ -39,9 +39,6 @@ public class EstimoteReadings extends AppCompatActivity {
     public Handler uiRefresher = new Handler(Looper.getMainLooper());
 
 
-
-
-
     public static final long Mills_To_Minutes = 60000;
     public static final long Mills_To_Hours = 3600000;
 
@@ -79,42 +76,39 @@ public class EstimoteReadings extends AppCompatActivity {
         uiRefresher.post(xyzMove);
 
 
-
-
-
-
         //TODO: Include the timestamp in the project
         Timestamp = System.currentTimeMillis();
 
-        int hour = (int) ((Timestamp / (Mills_To_Hours))%24)+3;
+        int hour = (int) ((Timestamp / (Mills_To_Hours)) % 24) + 3;
         int seconds = (int) ((Timestamp / 1000) % 60);
         int minutes = (int) (((Timestamp / Mills_To_Minutes)) % 60);
         textView6.setText(String.format(
                 "%02dh:%02dmin:%02ds", hour, minutes, seconds
         ));
 
-        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), Identifier_from_MyApplication, RSSI_value_from_MyApplication, Identifier_from_MyApplicationAccel, XACCELERATION, YACCELERATION, ZACCELERATION, XYZACCELERATION);
-        Log.d("add data to db", estimotePacket1.get_estimoteRSSI() + "");
-        fabDatabaseHelper.addData(estimotePacket1);
+//        EstimotePackets estimotePacket1 = new EstimotePackets(String.valueOf(Timestamp), EstimoteReadings.Identifier_from_MyApplication, EstimoteReadings.RSSI_value_from_MyApplication,
+//                EstimoteReadings.Identifier_from_MyApplicationAccel, EstimoteReadings.XACCELERATION, EstimoteReadings.YACCELERATION, EstimoteReadings.ZACCELERATION, EstimoteReadings.XYZACCELERATION);
+//        Log.d("add data to db", estimotePacket1.get_estimoteRSSI() + "");
+//        fabDatabaseHelper.addData(estimotePacket1);
 
 
         List<EstimotePackets> estimotePackets = fabDatabaseHelper.allPackets();
-                    if (estimotePackets != null) {
-                       String [] itemsNames = new String[estimotePackets.size()];
+        if (estimotePackets != null) {
+            String[] itemsNames = new String[estimotePackets.size()];
 
-                        for (int i = 0; i < estimotePackets.size(); i++) {
-                            itemsNames[i] = estimotePackets.get(i).toString();
-                        }
+            for (int i = 0; i < estimotePackets.size(); i++) {
+                itemsNames[i] = estimotePackets.get(i).toString();
+            }
 
-                        // display like string instances
-                        ListView list = (ListView) findViewById(R.id.my_listview);
-                        list.setAdapter(new ArrayAdapter<String>(this,
-                                android.R.layout.simple_list_item_1, android.R.id.text1, itemsNames));
+            // display like string instances
+            ListView list = (ListView) findViewById(R.id.my_listview);
+            list.setAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, android.R.id.text1, itemsNames));
 
-                    }
+        }
     }
 
-    Runnable updateRSSI =new Runnable() {
+    Runnable updateRSSI = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -125,12 +119,12 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(updateRSSI,refresh_interval);
+            uiRefresher.postDelayed(updateRSSI, refresh_interval);
         }
 
     };
 
-    Runnable updateMove =new Runnable() {
+    Runnable updateMove = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -141,12 +135,12 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(updateMove,refresh_interval);
+            uiRefresher.postDelayed(updateMove, refresh_interval);
         }
 
     };
 
-    Runnable xMove =new Runnable() {
+    Runnable xMove = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -157,12 +151,12 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(xMove,refresh_interval);
+            uiRefresher.postDelayed(xMove, refresh_interval);
         }
 
     };
 
-    Runnable yMove =new Runnable() {
+    Runnable yMove = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -173,12 +167,12 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(yMove,refresh_interval);
+            uiRefresher.postDelayed(yMove, refresh_interval);
         }
 
     };
 
-    Runnable zMove =new Runnable() {
+    Runnable zMove = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -189,12 +183,12 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(zMove,refresh_interval);
+            uiRefresher.postDelayed(zMove, refresh_interval);
         }
 
     };
 
-    Runnable xyzMove =new Runnable() {
+    Runnable xyzMove = new Runnable() {
         @Override
         public void run() {
             runOnUiThread(new Runnable() {
@@ -205,8 +199,9 @@ public class EstimoteReadings extends AppCompatActivity {
                 }
             });
 
-            uiRefresher.postDelayed(xyzMove,refresh_interval);
+            uiRefresher.postDelayed(xyzMove, refresh_interval);
         }
 
     };
+
 }
